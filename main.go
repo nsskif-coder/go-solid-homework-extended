@@ -26,20 +26,20 @@ func (s *OrderService) CreateOrder(customer string, products []string, total flo
 		Status:   "pending",
 	}
 
-	fmt.Println("💾 Сохраняем заказ в хранилище...")
+	fmt.Println("Сохраняем заказ в хранилище...")
 	if err := s.repo.SaveOrder(order); err != nil {
 		return fmt.Errorf("ошибка сохранения: %w", err)
 	}
 
 	msg := fmt.Sprintf("Ваш заказ на %.2f руб. успешно создан!", total)
-	fmt.Println("📤 Отправляем уведомление...")
+	fmt.Println("Отправляем уведомление...")
 	s.notifier.Send(customer, msg)
 
 	return nil
 }
 
 func main() {
-	fmt.Println("🚀 Запуск системы управления заказами...")
+	fmt.Println("Запуск системы управления заказами...")
 
 	// Используем хранилище в памяти - никаких баз данных и компиляторов C не нужно!
 	repo := NewInMemoryRepo()
