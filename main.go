@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-// OrderService - наш главный сервис
+// главный сервис заказов
 type OrderService struct {
 	repo     RepositoryWriter
 	notifier Notifier
@@ -26,7 +26,7 @@ func (s *OrderService) CreateOrder(customer string, products []string, total flo
 		Status:   "pending",
 	}
 
-	fmt.Println("Сохраняем заказ в хранилище...")
+	fmt.Println("Сохраняем заказ...")
 	if err := s.repo.SaveOrder(order); err != nil {
 		return fmt.Errorf("ошибка сохранения: %w", err)
 	}
@@ -41,10 +41,10 @@ func (s *OrderService) CreateOrder(customer string, products []string, total flo
 func main() {
 	fmt.Println("Запуск системы управления заказами...")
 
-	// Используем хранилище в памяти - никаких баз данных и компиляторов C не нужно!
+	// Используем хранение в памяти, как вариант замены БД
 	repo := NewInMemoryRepo()
 
-	// Попробуй поменять EmailSender на SMSSender, чтобы увидеть разницу
+	// Можно менять EmailSender на SMSSender, запустится нужный интерфейс
 	notifier := &EmailSender{}
 
 	service := NewOrderService(repo, notifier)
